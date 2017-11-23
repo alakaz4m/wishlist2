@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {%if request.session.user_id%}
+    <a href="/main/logout">Logout</a>
+    <h1>Hello {{loggeduser.name}}!</h1>
+    <p>Your Wish List:</p>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Added by</th>
+        <th>Date added</th>
+        <th>Action</th>
+      </tr>
+      {%if my_wishlist%}
+        {%for wish in my_wishlist%}
+      <tr>
+        <td><a href="/wish_items/{{wish.id}}">{{wish.item}}</a></td>
+        <td>{{wish.added_by.name}}</td>
+        <td>{{wish.date_added}}</td>
+          {%if wish.added_by.id == loggeduser.id%}
+        <td><a href="/wish_items/{{wish.id}}/destroy">Delete</a></td>
+          {%else%}
+        <td><a href="/wish_items/{{wish.id}}/remove">Remove from my wishlist</a></td>
+          {%endif%}
+      </tr>
+      {%endfor%}
+      {%endif%}
+    </table>
+    {%else%}
+    <a href="/main">Login</a>
+    <h1>Welcome!</h1>
+    {%endif%}
+    <p>Other Users' Wish List</p>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Added by</th>
+        <th>Date added</th>
+        <th>Action</th>
+      </tr>
+      {%if request.session.user_id%}
+      {%for others in others_wishlist%}
+      <tr>
+        <td><a href="/wish_items/{{others.id}}">{{others.item}}</a></td>
+        <td>{{others.added_by.name}}</td>
+        <td>{{others.date_added}}</td>
+        <td><a href="/wish_items/{{others.id}}/add">Add to my wishlist</a></td>
+      </tr>
+      {%endfor%}
+      {%else%}
+      {%for others in all_wishlist%}
+      <tr>
+        <td><a href="/wish_items/{{others.id}}">{{others.item}}</a></td>
+        <td>{{others.added_by.name}}</td>
+        <td>{{others.date_added}}</td>
+        <td><a href="/wish_items/{{others.id}}/add">Add to my wishlist</a></td>
+      </tr>
+      {%endfor%}
+      {%endif%}
+    </table>
+    {%if request.session.user_id%}
+    <a href="/wish_items/create">Add Item</a>
+    {%endif%}
+  </body>
+</html>

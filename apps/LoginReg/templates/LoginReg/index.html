@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login | Register</title>
+    <style>
+    #container{
+      position: absolute;
+      height: 200px;
+      width: 400px;
+      margin: -100px 0 0 -200px;
+      top: 10%;
+      left: 50%;
+    }
+    #register{
+      margin-top: 20px;
+    }
+    #notices{
+    }
+    #login{
+      margin-bottom: 20px;
+    }
+    #pass_notice{
+      font-weight: bolder;
+    }
+    h1{
+      position: relative;
+      left: 3vw;
+      margin-top: 20px;
+    }
+    fieldset{
+      /*width: 10%;*/
+      border-radius: 15px;
+      background-color: lightgray;
+    }
+    legend{
+      color: black;
+      font-weight: bolder;
+      font-size: 40px;
+    }
+    td{
+      padding: 10px;
+    }
+    .error{
+      color:red;
+    }
+    </style>
+  </head>
+  <body>
+        <div id="container">
+          <h1>Welcome!</h1>
+          <div id="login">
+            <fieldset>
+              <legend>Login</legend>
+              <table>
+                <form action="/main/process" method="POST">
+                  {% csrf_token %}
+                  <input name="logic_id" type="hidden" value="2" />
+                  <tr>
+                    <td><span>Email: </span><input type="text" name="email"/></td>
+                  </tr>
+                  <tr>
+                    <td><span>Password: </span><input type="password" name="password"/></td>
+                  </tr>
+                  <td><input type="submit" value="Login"/></td>
+                </tr>
+              </form>
+            </table>
+          </fieldset>
+        </div>
+          <div id="notices">
+            {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          <div id="register">
+            <fieldset>
+              <legend>Register</legend>
+              <table>
+                <form action="/main/process" method="POST">
+                  {% csrf_token %}
+                  <input name="logic_id" type="hidden" value="1" />
+                <tr>
+                  <td>Name: <input type="text" name="name"/></td>
+                </tr>
+                <tr>
+                  <td>Alias: <input type="text" name="alias"/></td>
+                </tr>
+                <tr>
+                  <td>Email: <input type="text" name="email"/></td>
+                </tr>
+                <tr>
+                  <td>Password: <input type="password" name="password"/></td>
+                </tr>
+                <tr>
+                  <td><span id="pass_notice">Password must be atleast 8 characters</span></td>
+                </tr>
+                <tr>
+                  <td>Confirm Password: <input type="password" name="confirm_password"/></td>
+                </tr>
+                <tr>
+                  <td><input type="submit" value="Register"/></td>
+                </tr>
+              </form>
+              </table>
+          </fieldset>
+          </div>
+
+
+
+
+        </div>
+  </body>
+</html>
